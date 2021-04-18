@@ -1,24 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useContext } from "react";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import Header from "./components/Header";
+import Content from "./components/Content";
+import Footer from "./components/Footer";
+import { store } from "./context";
 
 function App() {
+  const datos = useContext(store);
+
+  useEffect(() => {
+    const data = localStorage.getItem("paktolusCasino");
+
+    if (data) {
+      const data2 = JSON.parse(data);
+      datos.restoreData(data2);
+    }
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <CssBaseline />
+
+      <Header />
+      <Content />
+      <Footer />
+    </>
   );
 }
 
