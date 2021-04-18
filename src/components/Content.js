@@ -20,11 +20,9 @@ import { store } from "../context";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
-    console.log(a, b, "menor");
     return -1;
   }
   if (b[orderBy] > a[orderBy]) {
-    console.log(a, b, "mayor");
     return 1;
   }
   return 0;
@@ -37,7 +35,6 @@ function getComparator(order, orderBy) {
 }
 
 function stableSort(array, comparator) {
-  console.log("Ordenando", array);
   const stabilizedThis = array.map((el, index) => [el, index]);
   stabilizedThis.sort((a, b) => {
     const order = comparator(a[0], b[0]);
