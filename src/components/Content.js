@@ -299,8 +299,8 @@ export default function Content(props) {
 
   return (
     <div className={classes.root}>
-      {datos.state ? (
-        <Container>
+      <Container>
+        {datos.state ? (
           <Paper elevation={3} className={classes.paper}>
             <EnhancedTableToolbar numSelected={selected.length} />
             <TableContainer>
@@ -369,19 +369,19 @@ export default function Content(props) {
               onChangeRowsPerPage={handleChangeRowsPerPage}
             />
           </Paper>
-          <Button
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-            onClick={handleStartGame}
-          >
-            Start Game
-          </Button>
-        </Container>
-      ) : (
-        "-"
-      )}
+        ) : (
+          "-"
+        )}
+        <Button
+          fullWidth
+          variant="contained"
+          color="primary"
+          className={classes.submit}
+          onClick={handleStartGame}
+        >
+          Start Game
+        </Button>
+      </Container>
 
       <ModalGame open={openModalGame} handleClose={handleGameClose} />
     </div>
