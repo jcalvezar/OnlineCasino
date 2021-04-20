@@ -292,91 +292,97 @@ export default function Content(props) {
 
   const isSelected = (name) => selected.indexOf(name) !== -1;
 
-  const emptyRows =
-    rowsPerPage -
-    Math.min(rowsPerPage, datos.state.rows.length - page * rowsPerPage);
+  const emptyRows = datos.state
+    ? rowsPerPage -
+      Math.min(rowsPerPage, datos.state.rows.length - page * rowsPerPage)
+    : 0;
 
   return (
     <div className={classes.root}>
-      <Container>
-        <Paper elevation={3} className={classes.paper}>
-          <EnhancedTableToolbar numSelected={selected.length} />
-          <TableContainer>
-            <Table
-              className={classes.table}
-              aria-labelledby="tableTitle"
-              size={dense ? "small" : "medium"}
-              aria-label="enhanced table"
-            >
-              <EnhancedTableHead
-                classes={classes}
-                numSelected={selected.length}
-                order={order}
-                orderBy={orderBy}
-                onSelectAllClick={handleSelectAllClick}
-                onRequestSort={handleRequestSort}
-                rowCount={datos.state.rows.length}
-              />
-              <TableBody>
-                {stableSort(datos.state.rows, getComparator(order, orderBy))
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((row, index) => {
-                    const isItemSelected = isSelected(row.id);
-                    const labelId = `enhanced-table-checkbox-${index}`;
+      {datos.state ? (
+        <Container>
+          <Paper elevation={3} className={classes.paper}>
+            <EnhancedTableToolbar numSelected={selected.length} />
+            <TableContainer>
+              <Table
+                className={classes.table}
+                aria-labelledby="tableTitle"
+                size={dense ? "small" : "medium"}
+                aria-label="enhanced table"
+              >
+                <EnhancedTableHead
+                  classes={classes}
+                  numSelected={selected.length}
+                  order={order}
+                  orderBy={orderBy}
+                  onSelectAllClick={handleSelectAllClick}
+                  onRequestSort={handleRequestSort}
+                  rowCount={datos.state.rows.length}
+                />
+                <TableBody>
+                  {stableSort(datos.state.rows, getComparator(order, orderBy))
+                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                    .map((row, index) => {
+                      const isItemSelected = isSelected(row.id);
+                      const labelId = `enhanced-table-checkbox-${index}`;
 
-                    return (
-                      <TableRow
-                        hover
-                        onClick={(event) => handleClick(event, row.id)}
-                        role="checkbox"
-                        aria-checked={isItemSelected}
-                        tabIndex={-1}
-                        key={row.id}
-                        selected={isItemSelected}
-                      >
-                        <TableCell
-                          component="th"
-                          id={labelId}
-                          scope="row"
-                          padding="default"
+                      return (
+                        <TableRow
+                          hover
+                          onClick={(event) => handleClick(event, row.id)}
+                          role="checkbox"
+                          aria-checked={isItemSelected}
+                          tabIndex={-1}
+                          key={row.id}
+                          selected={isItemSelected}
                         >
-                          {row.id}
-                        </TableCell>
-                        <TableCell>{row.slots.join("")}</TableCell>
-                        <TableCell>{row.timestamp}</TableCell>
-                        <TableCell align="right">{row.earnings}</TableCell>
-                        <TableCell align="right">{row.balance}</TableCell>
-                      </TableRow>
-                    );
-                  })}
-                {emptyRows > 0 && (
-                  <TableRow style={{ height: (dense ? 33 : 53) * emptyRows }}>
-                    <TableCell colSpan={6} />
-                  </TableRow>
-                )}
-              </TableBody>
-            </Table>
-          </TableContainer>
-          <TablePagination
-            rowsPerPageOptions={[5, 10, 25]}
-            component="div"
-            count={datos.state.rows.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onChangePage={handleChangePage}
-            onChangeRowsPerPage={handleChangeRowsPerPage}
-          />
-        </Paper>
-        <Button
-          fullWidth
-          variant="contained"
-          color="primary"
-          className={classes.submit}
-          onClick={handleStartGame}
-        >
-          Start Game
-        </Button>
-      </Container>
+                          <TableCell
+                            component="th"
+                            id={labelId}
+                            scope="row"
+                            padding="default"
+                          >
+                            {row.id}
+                          </TableCell>
+                          <TableCell>{row.slots.join("")}</TableCell>
+                          <TableCell>{row.timestamp}</TableCell>
+                          <TableCell align="right">{row.earnings}</TableCell>
+                          <TableCell align="right">{row.balance}</TableCell>
+                        </TableRow>
+                      );
+                    })}
+                  {emptyRows > 0 && (
+                    <TableRow style={{ height: (dense ? 33 : 53) * emptyRows }}>
+                      <TableCell colSpan={6} />
+                    </TableRow>
+                  )}
+                </TableBody>
+              </Table>
+            </TableContainer>
+            <TablePagination
+              rowsPerPageOptions={[5, 10, 25]}
+              component="div"
+              count={datos.state.rows.length}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onChangePage={handleChangePage}
+              onChangeRowsPerPage={handleChangeRowsPerPage}
+            />
+          </Paper>
+          <Button
+            fullWidth
+            variant="contained"
+            color="primary"
+            className={classes.submit}
+            onClick={handleStartGame}
+          >
+            Start Game
+          </Button>
+        </Container>
+      ) : (
+        "-"
+      )}
+
       <ModalGame open={openModalGame} handleClose={handleGameClose} />
     </div>
   );

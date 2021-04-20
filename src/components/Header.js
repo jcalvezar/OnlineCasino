@@ -51,6 +51,7 @@ export default function Header(props) {
   const handleLogoClick = () => {
     datos.restoreData({ isLogged: false, username: "", balance: 100 });
   };
+
   return (
     <div className={classes.root}>
       <AppBar position="static">
@@ -70,16 +71,20 @@ export default function Header(props) {
             </Typography>
             <Typography variant="h6" className={classes.balance}>
               Balance:{" "}
-              <NumberFormat
-                value={datos.state.balance}
-                displayType={"text"}
-                thousandSeparator={true}
-                prefix={"$"}
-                decimalScale="2"
-                fixedDecimalScale={true}
-              />
+              {datos.state ? (
+                <NumberFormat
+                  value={datos.state.balance}
+                  displayType={"text"}
+                  thousandSeparator={true}
+                  prefix={"$"}
+                  decimalScale="2"
+                  fixedDecimalScale={true}
+                />
+              ) : (
+                0
+              )}
             </Typography>
-            {datos.state.isLogged ? (
+            {datos.state && datos.state.isLogged ? (
               <>
                 <Typography variant="h6">{datos.state.username}</Typography>
                 <IconButton onClick={handleLogout} color="inherit">
