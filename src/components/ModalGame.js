@@ -75,31 +75,40 @@ export default function ModalLogin(props) {
   };
 
   const processGame = (slots) => {
-    if (datos.state.balance >= 1) {
-      setSlot(slots);
+    if (datos.state) {
+      if (datos.state.balance >= 1) {
+        console.log("Estoy con BALANCE");
 
-      let earnings = 0;
+        setSlot(slots);
 
-      if (slots[0] === 7 && slots[1] === 7 && slots[2] === 7) {
-        earnings = 10;
+        let earnings = 0;
+
+        if (slots[0] === 7 && slots[1] === 7 && slots[2] === 7) {
+          earnings = 10;
+        }
+
+        if (slots[0] === slots[1] && slots[1] === slots[2] && earnings === 0) {
+          earnings = 5;
+        }
+
+        if (
+          (slots[0] === slots[1] || slots[1] === slots[2]) &&
+          earnings === 0
+        ) {
+          earnings = 0.5;
+        }
+
+        registerGame(slots, earnings);
       }
-
-      if (slots[0] === slots[1] && slots[1] === slots[2] && earnings === 0) {
-        earnings = 5;
-      }
-
-      if ((slots[0] === slots[1] || slots[1] === slots[2]) && earnings === 0) {
-        earnings = 0.5;
-      }
-
-      registerGame(slots, earnings);
     }
   };
 
   const registerGame = (slots, earnings) => {
     //console.log("Game: ", slots, earnings);
-    const newBalance = datos.state.balance - 1 + earnings;
-    datos.addGame({ slots: slots, earnings: earnings, balance: newBalance });
+    if (datos.state) {
+      const newBalance = datos.state.balance - 1 + earnings;
+      datos.addGame({ slots: slots, earnings: earnings, balance: newBalance });
+    }
   };
 
   return (
