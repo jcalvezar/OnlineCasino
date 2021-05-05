@@ -2,6 +2,10 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## OnLine Demo
+
+Open [http://casino.jcalvez.info/](http://casino.jcalvez.info/) to view it in the browser.
+
 ## Available Scripts
 
 In the project directory, you can run:
