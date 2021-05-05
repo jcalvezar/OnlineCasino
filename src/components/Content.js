@@ -17,6 +17,8 @@ import Container from "@material-ui/core/Container";
 import Button from "@material-ui/core/Button";
 import ModalGame from "./ModalGame";
 import { store } from "../context";
+import useSound from "use-sound";
+import openModalSound from "../sounds/open.mp3";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -227,8 +229,11 @@ export default function Content(props) {
 
   const datos = useContext(store);
   const [openModalGame, setOpenModalGame] = React.useState(false);
+  const [play] = useSound(openModalSound);
 
   const handleStartGame = () => {
+    // Sonar Open Modal
+    play();
     setOpenModalGame(true);
   };
 
@@ -309,6 +314,7 @@ export default function Content(props) {
                 aria-labelledby="tableTitle"
                 size={dense ? "small" : "medium"}
                 aria-label="enhanced table"
+                id="resultsTable"
               >
                 <EnhancedTableHead
                   classes={classes}

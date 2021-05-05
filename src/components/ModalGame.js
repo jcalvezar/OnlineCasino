@@ -10,6 +10,9 @@ import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import Paper from "@material-ui/core/Paper";
 import { store } from "../context";
+import useSound from "use-sound";
+import startSound from "../sounds/start.mp3";
+import winSound from "../sounds/win.mp3";
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -57,6 +60,8 @@ export default function ModalLogin(props) {
   const classes = useStyles();
   const datos = useContext(store);
   const [slot, setSlot] = useState([1, 2, 3]);
+  const [playStart] = useSound(startSound);
+  const [playWin] = useSound(winSound);
 
   const handleClose = () => {
     props.handleClose();
@@ -65,11 +70,13 @@ export default function ModalLogin(props) {
   const getNumber = () => Math.floor(Math.random() * (9 - 1 + 1) + 1);
 
   const handlePlay = () => {
+    playStart();
     const newSlots = [getNumber(), getNumber(), getNumber()];
     processGame(newSlots);
   };
 
   const handleDebug = () => {
+    playStart();
     const newSlots = [7, 7, 7];
     processGame(newSlots);
   };
@@ -97,6 +104,8 @@ export default function ModalLogin(props) {
         ) {
           earnings = 0.5;
         }
+
+        if (earnings > 0) playWin();
 
         registerGame(slots, earnings);
       }
